@@ -60,7 +60,7 @@ public class Visual {
     private String applitoolsLogFileNameForWeb = NOT_SET;
     private String applitoolsLogFileNameForApp = NOT_SET;
     private EyesRunner seleniumEyesRunner;
-    // private ClassicRunner appiumEyesRunner;
+     private ClassicRunner appiumEyesRunner;
 
     public Visual(String driverType, Platform platform, WebDriver innerDriver, String testName, String userPersona, String appName, boolean isVisualTestingEnabled) {
         LOGGER.info(
@@ -88,9 +88,9 @@ public class Visual {
             isVisualTestingEnabled = false;
         }
         LOGGER.info("instantiateAppiumEyes: isVisualTestingEnabled: " + isVisualTestingEnabled);
-        // appiumEyesRunner = new ClassicRunner();
-        // appiumEyesRunner.setDontCloseBatches(true);
-        com.applitools.eyes.appium.Eyes appEyes = new com.applitools.eyes.appium.Eyes();
+         appiumEyesRunner = new ClassicRunner();
+         appiumEyesRunner.setDontCloseBatches(true);
+        com.applitools.eyes.appium.Eyes appEyes = new com.applitools.eyes.appium.Eyes(appiumEyesRunner);
 
         appEyes.setServerUrl(getValueFromConfig(APPLITOOLS.SERVER_URL, DEFAULT_APPLITOOLS_SERVER_URL));
         appEyes.setApiKey(getValueFromConfig(APPLITOOLS.API_KEY, NOT_SET));
@@ -465,9 +465,10 @@ public class Visual {
             return;
         }
         LOGGER.info("getVisualResultsFromApp: user: " + userPersona);
-        TestResults allTestResults = eyesOnApp.close(false);
-        checkEachTestVisualResults(userPersona, "app", null, allTestResults);
-        // TestResultsSummary allTestResults = appiumEyesRunner.getAllTestResults(false);
-        // checkVisualTestResults(allTestResults, userPersona, "app", applitoolsLogFileNameForApp);
+//        TestResults allTestResults = eyesOnApp.close(false);
+//        checkEachTestVisualResults(userPersona, "app", null, allTestResults);
+        eyesOnApp.closeAsync();
+         TestResultsSummary allTestResults = appiumEyesRunner.getAllTestResults(false);
+         checkVisualTestResults(allTestResults, userPersona, "app", applitoolsLogFileNameForApp);
     }
 }

@@ -5,8 +5,8 @@ buildscript {
         gradleVersion = '7.3.3'
         assertJVersion = '3.23.1'
         atdVersion = 'dbef9bed7d'
-        applitoolsSeleniumVersion = '3.213.0'
-        applitoolsAppiumVersion = '3.213.0'
+        applitoolsSeleniumVersion = '5.26.0'
+        applitoolsAppiumVersion = '5.26.0'
         commonsLang3Version = '3.12.0'
         unirestVersion = '3.13.11'
         jadbVersion = '1.2.1'
@@ -85,17 +85,17 @@ dependencies {
     implementation("com.epam.reportportal:agent-java-testng:$project.reportportalAgentTestNGVersion") {
         exclude group: 'com.fasterxml.jackson.core'
     }
-    implementation("com.applitools:eyes-appium-java3:$project.applitoolsAppiumVersion") {
+    implementation("com.applitools:eyes-appium-java5:$project.applitoolsAppiumVersion") {
         exclude group: 'java-client'
         exclude group: 'selenium-java'
-        exclude group: 'eyes-connectivity-java5-jersey2x'
+//        exclude group: 'eyes-connectivity-java5-jersey2x'
     }
-    implementation("com.applitools:eyes-selenium-java3:$project.applitoolsSeleniumVersion") {
-        exclude group: 'java-client'
-        exclude group: 'selenium-java'
-        exclude group: 'eyes-connectivity-java5-jersey2x'
-    }
-    implementation "com.applitools:eyes-connectivity-java3-jersey1x:$project.applitoolsSeleniumVersion"
+//    implementation("com.applitools:eyes-selenium-java5:$project.applitoolsSeleniumVersion") {
+//        exclude group: 'java-client'
+//        exclude group: 'selenium-java'
+////        exclude group: 'eyes-connectivity-java5-jersey2x'
+//    }
+//    implementation "com.applitools:eyes-connectivity-java3-jersey1x:$project.applitoolsSeleniumVersion"
     implementation "org.everit.json:org.everit.json.schema:$project.everitSchemaValidatorVersion"
     implementation "net.masterthought:cucumber-reporting:$masterThoughtVersion"
 }
@@ -159,6 +159,7 @@ task run(type: JavaExec) {
             println("Run the test by providing the CONFIG file not provided, or does not exist")
             assert file(configFile).exists()
         }
+        environment "APPLITOOLS_API_KEY", System.getenv("APPLITOOLS_API_KEY")
 
 //      You can also specify which config file to use based on the value of RUN_IN_CI as shown below
 //
